@@ -43,6 +43,44 @@ public class MainActivity extends AppCompatActivity {
 
     boolean[][] opened = new boolean[HEIGHT][WIDTH];
 
+    private void showArea(int heightPos, int widthPos){
+        int topLock = heightPos - 1, bottomLock = heightPos + 1, rightLock = widthPos + 1, leftLock = widthPos - 1;
+        if (widthPos != 0 && !opened[heightPos][leftLock]) {
+            cells[heightPos][leftLock].performClick();
+        }
+        if(widthPos != WIDTH - 1 && !opened[heightPos][rightLock]) {
+            cells[heightPos][rightLock].performClick();
+        }
+        if (heightPos != 0 && !opened[topLock][widthPos]) {
+            cells[topLock][widthPos].performClick();
+        }
+        if (heightPos != HEIGHT - 1 && !opened[bottomLock][widthPos]) {
+            cells[bottomLock][widthPos].performClick();
+        }
+        if (heightPos != HEIGHT - 1 && widthPos != 0 && !opened[bottomLock][leftLock]){
+            cells[bottomLock][leftLock].performClick();
+        }
+        if (heightPos != HEIGHT - 1 && widthPos != WIDTH - 1 && !opened[bottomLock][rightLock]){
+            cells[bottomLock][rightLock].performClick();
+        }
+        if (heightPos != 0 && widthPos != 0 && !opened[topLock][leftLock]){
+            cells[topLock][leftLock].performClick();
+        }
+        if (heightPos != 0 && widthPos != WIDTH - 1 && !opened[topLock][rightLock]){
+            cells[topLock][rightLock].performClick();
+        }
+    }
+
+    private void win(){
+        Toast.makeText(getApplicationContext(), "YOU WIN!!!", Toast.LENGTH_SHORT).show();
+        for (int k = 0; k < HEIGHT; k++) {
+            for (int l = 0; l < WIDTH; l++) {
+                cells[k][l].setEnabled(false);
+            }
+        }
+        retry.setVisibility(View.VISIBLE);
+    }
+
     @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +140,11 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         int widthPos = v.getId() % WIDTH;
                         int heightPos = v.getId() / WIDTH;
+                        if (!opened[heightPos][widthPos] && !cells[heightPos][widthPos].getText().toString().equals("F")) {
+                            currentCells--;
+                            opened[heightPos][widthPos] = true;
+                        }
+                        Log.d("num", String.valueOf(currentCells) + " " + String.valueOf(minesCurrent));
                         if (firstClick){
                             Random rand = new Random();
                             while (minesCurrent != MINESCONST){
@@ -137,16 +180,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                             mines.setText(String.format("%d / %d", minesCurrent, MINESCONST));
                             firstClick = false;
-                            int topLock = heightPos - 1, bottomLock = heightPos + 1, rightLock = widthPos + 1, leftLock = widthPos - 1;
-                            if (widthPos == 0) leftLock = 0;
-                            else if(widthPos == WIDTH - 1) rightLock = WIDTH - 1;
-                            if (heightPos == 0) topLock = 0;
-                            else if (heightPos == HEIGHT - 1) bottomLock = HEIGHT - 1;
-                            for (int m = topLock; m <= bottomLock; m++) {
-                                for (int n = leftLock; n <= rightLock; n++) {
-                                    cells[m][n].performClick();
-                                }
-                            }
                         }
                         if (cells[heightPos][widthPos].getText().toString().equals("F")) return;
                         if ((widthPos + heightPos) % 2 == 0){
@@ -155,7 +188,10 @@ public class MainActivity extends AppCompatActivity {
                         else {
                             v.setBackgroundColor(getColor(R.color.dark_grey));
                         }
-                        if (cells[heightPos][widthPos].getText().toString().equals("1")){
+                        if (cells[heightPos][widthPos].getText().toString().equals("0")){
+                            showArea(heightPos, widthPos);
+                        }
+                        else if (cells[heightPos][widthPos].getText().toString().equals("1")){
                             cells[heightPos][widthPos].setTextColor(getColor(R.color.blue_letter));
                         }
                         else if (cells[heightPos][widthPos].getText().toString().equals("2")){
@@ -184,21 +220,22 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "YOU LOSE!!!", Toast.LENGTH_SHORT).show();
                             for (int k = 0; k < HEIGHT; k++) {
                                 for (int l = 0; l < WIDTH; l++) {
+                                    if (cells[k][l].getText().toString().equals("M")){
+                                        cells[k][l].setTextColor(getColor(R.color.yellow_letter));
+                                    }
+                                    else if (cells[k][l].getText().toString().equals("F")){
+                                        if (!values[k][l].equals("M")){
+                                            cells[k][l].setText("X");
+                                            cells[k][l].setTextColor(getColor(R.color.red_letter));
+                                        }
+                                    }
                                     cells[k][l].setEnabled(false);
                                 }
                             }
                             retry.setVisibility(View.VISIBLE);
                         }
-                        if (!opened[heightPos][widthPos]) currentCells--;
-                        opened[heightPos][widthPos] = true;
-                        if(currentCells == 0){
-                            Toast.makeText(getApplicationContext(), "YOU WIN!!!", Toast.LENGTH_SHORT).show();
-                            for (int k = 0; k < HEIGHT; k++) {
-                                for (int l = 0; l < WIDTH; l++) {
-                                    cells[k][l].setEnabled(false);
-                                }
-                            }
-                            retry.setVisibility(View.VISIBLE);
+                        if(currentCells == 0 && minesCurrent == 0){
+                            win();
                         }
                     }
                 });
@@ -220,6 +257,29 @@ public class MainActivity extends AppCompatActivity {
                                 minesCurrent++;
                             }
                             mines.setText(String.format("%d / %d", minesCurrent, MINESCONST));
+                            if(currentCells == 0 && minesCurrent == 0){
+                                win();
+                            }
+                        }
+                        if (!firstClick && opened[heightPos][widthPos]){
+                            int topLock = heightPos - 1, bottomLock = heightPos + 1, rightLock = widthPos + 1, leftLock = widthPos - 1;
+                            if (widthPos == 0) leftLock = 0;
+                            else if(widthPos == WIDTH - 1) rightLock = WIDTH - 1;
+                            if (heightPos == 0) topLock = 0;
+                            else if (heightPos == HEIGHT - 1) bottomLock = HEIGHT - 1;
+                            int number = 0;
+                            for (int m = topLock; m <= bottomLock; m++) {
+                                for (int n = leftLock; n <= rightLock; n++) {
+                                    if (cells[m][n].getText().toString().equals("F")) number++;
+                                }
+                            }
+                            if (Integer.parseInt(cells[heightPos][widthPos].getText().toString()) == number){
+                                for (int m = topLock; m <= bottomLock; m++) {
+                                    for (int n = leftLock; n <= rightLock; n++) {
+                                        if (!opened[m][n]) cells[m][n].performClick();
+                                    }
+                                }
+                            }
                         }
                         return true;
                     }
