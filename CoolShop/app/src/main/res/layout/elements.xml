@@ -45,19 +45,19 @@
                 android:id="@+id/CB5"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Рыба">
+                android:text="Творог">
             </CheckBox>
             <CheckBox
                 android:id="@+id/CB7"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Рыба">
+                android:text="Сметана">
             </CheckBox>
             <CheckBox
                 android:id="@+id/CB9"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Рыба">
+                android:text="Бекон">
             </CheckBox>
         </LinearLayout>
         <LinearLayout
@@ -81,19 +81,19 @@
                 android:id="@+id/CB6"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Куринное филе">
+                android:text="Гречка">
             </CheckBox>
             <CheckBox
                 android:id="@+id/CB8"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Куринное филе">
+                android:text="Рис">
             </CheckBox>
             <CheckBox
                 android:id="@+id/CB10"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Куринное филе">
+                android:text="Пельмени">
             </CheckBox>
         </LinearLayout>
     </LinearLayout>
@@ -138,7 +138,7 @@
         android:id="@+id/ET"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="5"
         android:background="@drawable/border"
         android:hint="Комментарии к заказу">
     </EditText>
