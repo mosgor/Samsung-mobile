@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="bottom"
+        android:layout_margin="5dp"
         android:text="Список доступных товаров:"
         android:textSize="15sp">
     </TextView>
@@ -102,6 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="bottom"
+        android:layout_margin="5dp"
         android:text="Выберите способ доставки:"
         android:textSize="15sp">
     </TextView>
@@ -140,7 +142,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="5"
         android:background="@drawable/border"
-        android:hint="Комментарии к заказу">
+        android:padding="10dp"
+        android:hint="Комментарии к заказу"
+        android:gravity="top">
     </EditText>
     <LinearLayout
         android:layout_width="match_parent"
