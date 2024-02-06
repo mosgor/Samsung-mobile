@@ -3,6 +3,7 @@ package com.mosgor.coolshop;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+import android.net.Uri;
 
 import com.mosgor.coolshop.databinding.ElementsBinding;
 
@@ -76,6 +78,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                     binding.BT2.performClick();
+                    Intent intent = new Intent(Intent.ACTION_SENDTO);
+                    intent.setData(Uri.parse("mailto:"));
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Список продуктов: ");
+                    intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"mos_gor@list.ru"});
+                    intent.putExtra(Intent.EXTRA_TEXT, message);
+                   /* Intent intent2 = new Intent(Intent.ACTION_CALL);
+                    intent.setData(Uri.parse("tel:" + "+79160000000"));*/
+                    startActivity(intent);
                 }
             }
         });
