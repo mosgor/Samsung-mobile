@@ -1,11 +1,8 @@
 package com.mosgor.meteoservice;
 
-import android.app.Activity;
 import android.content.res.AssetManager;
 import android.os.Message;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -16,22 +13,26 @@ import java.util.Scanner;
 import android.os.Handler;
 import android.util.Log;
 
-import javax.net.ssl.HttpsURLConnection;
-
 public class HttpsRequest implements Runnable {
 
 	String key;
 
-	static final String CITY = "Moscow";
+	String city;
 
 	static final String APIREQUEST = "http://api.weatherapi.com/v1/current.json";
 
 	URL url;
 
+	boolean isCity = true;
+
 	Handler handler;
 
-	public HttpsRequest(Handler handler, AssetManager am) {
+	public HttpsRequest(Handler handler, AssetManager am, String city) {
 		this.handler = handler;
+		this.city = city;
+		if (city.equals("0")) {
+			isCity = false;
+		}
 		InputStream file;
 		try {
 			file = am.open("key.txt");
@@ -40,7 +41,7 @@ public class HttpsRequest implements Runnable {
 		}
 		this.key = new Scanner(file).next();
 		try {
-			url = new URL(APIREQUEST + "?" + "q=" + CITY + "&" + "key=" + key);
+			url = new URL(APIREQUEST + "?" + "q=" + city + "&" + "key=" + key);
 		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
 		}
@@ -48,26 +49,37 @@ public class HttpsRequest implements Runnable {
 
 	@Override
 	public void run() {
-		try {
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			Log.d("RESULT", url.toString());
-			Scanner in = new Scanner(connection.getInputStream());
-			StringBuilder responce = new StringBuilder();
-			Log.d("RESULT52", url.toString());
+		if (isCity) {
+			try {
+				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+				if (connection.getResponseCode() != 200) {
+					Message msg = Message.obtain();
+					msg.obj = "Error";
+					handler.sendMessage(msg);
+					return;
+				}
+				Log.d("RESULT", url.toString());
+				Scanner in = new Scanner(connection.getInputStream());
+				StringBuilder response = new StringBuilder();
+				Log.d("RESULT52", url.toString());
 
-			while (in.hasNext()) {
-				responce.append(in.nextLine());
+				while (in.hasNext()) {
+					response.append(in.nextLine());
+				}
+				in.close();
+				connection.disconnect();
+				Log.d("RESULT2", url.toString());
+				Message msg = Message.obtain();
+				msg.obj = response.toString();
+				handler.sendMessage(msg);
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
-			in.close();
-			connection.disconnect();
-			Log.d("RESULT2", url.toString());
+		} else {
 			Message msg = Message.obtain();
-			msg.obj = responce.toString();
+			msg.obj = "noCity";
 			handler.sendMessage(msg);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-
 		}
 	}
 }

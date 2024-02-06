@@ -2,19 +2,31 @@
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginTop="20pt">
     <TextView
         android:id="@+id/view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="Loading"
+        android:textSize="20sp"
         android:layout_gravity="center">
     </TextView>
-    <EditText
-        android:id="@+id/ed"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:hint="Введите название текста">
-    </EditText>
+        android:layout_gravity="center">
+        <EditText
+            android:id="@+id/ed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="Введите название текста">
+        </EditText>
+        <Button
+            android:id="@+id/approve"
+            android:layout_width="40dp"
+            android:layout_height="match_parent">
+        </Button>
+    </LinearLayout>
 </LinearLayout>
