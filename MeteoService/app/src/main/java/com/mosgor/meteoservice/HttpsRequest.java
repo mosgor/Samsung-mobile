@@ -19,7 +19,7 @@ public class HttpsRequest implements Runnable {
 
 	String city;
 
-	static final String APIREQUEST = "http://api.weatherapi.com/v1/current.json";
+	static final String APIREQUEST = "http://api.weatherapi.com/v1/forecast.json";
 
 	URL url;
 
@@ -41,7 +41,7 @@ public class HttpsRequest implements Runnable {
 		}
 		this.key = new Scanner(file).next();
 		try {
-			url = new URL(APIREQUEST + "?" + "q=" + city + "&" + "key=" + key);
+			url = new URL(APIREQUEST + "?" + "q=" + city + "&" + "key=" + key + "&days=7&aqi=no&alerts=no&lang=ru");
 		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
 		}
@@ -56,19 +56,17 @@ public class HttpsRequest implements Runnable {
 					Message msg = Message.obtain();
 					msg.obj = "Error";
 					handler.sendMessage(msg);
+					connection.disconnect();
 					return;
 				}
-				Log.d("RESULT", url.toString());
 				Scanner in = new Scanner(connection.getInputStream());
 				StringBuilder response = new StringBuilder();
-				Log.d("RESULT52", url.toString());
 
 				while (in.hasNext()) {
 					response.append(in.nextLine());
 				}
 				in.close();
 				connection.disconnect();
-				Log.d("RESULT2", url.toString());
 				Message msg = Message.obtain();
 				msg.obj = response.toString();
 				handler.sendMessage(msg);

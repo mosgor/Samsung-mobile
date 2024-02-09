@@ -3,30 +3,109 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_marginTop="20pt">
-    <TextView
-        android:id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Loading"
-        android:textSize="20sp"
-        android:layout_gravity="center">
-    </TextView>
+    android:layout_marginTop="25dp"
+    android:layout_marginBottom="25dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="start"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp">
         <EditText
             android:id="@+id/ed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
             android:layout_gravity="center"
-            android:hint="Введите название текста">
+            android:textColor="@color/white"
+            android:hint="Введите город"
+            android:textSize="20sp"
+            android:textColorHint="@color/grey"
+            android:textColorHighlight="@color/white"
+            android:inputType="text">
         </EditText>
         <Button
             android:id="@+id/approve"
-            android:layout_width="40dp"
-            android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:text="Найти"
+            android:gravity="center">
         </Button>
     </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarSize="0dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:id="@+id/rl"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:orientation="horizontal"
+                android:layout_marginEnd="30dp"
+                android:layout_marginStart="30dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Загрузка"
+                        android:textSize="30sp"
+                        android:textColor="@color/white"
+                        android:layout_gravity="start">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@color/white">
+                    </TextView>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/MaxMin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="17sp"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:layout_alignParentBottom="true">
+                </TextView>
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="20dp">
+                </ImageView>
+            </RelativeLayout>
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbarSize="0dp"
+                android:background="@drawable/shape"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:requiresFadingEdge="horizontal">
+                <GridLayout
+                    android:id="@+id/hoursGrid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </GridLayout>
+            </HorizontalScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
