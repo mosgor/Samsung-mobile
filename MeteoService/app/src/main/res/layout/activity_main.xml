@@ -15,7 +15,7 @@
         android:layout_marginStart="30dp">
         <EditText
             android:id="@+id/ed"
-            android:layout_width="250dp"
+            android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:layout_gravity="center"
             android:textColor="@color/white"
@@ -23,13 +23,15 @@
             android:textSize="20sp"
             android:textColorHint="@color/grey"
             android:textColorHighlight="@color/white"
-            android:inputType="text">
+            android:inputType="text"
+            android:layout_weight="6">
         </EditText>
         <Button
             android:id="@+id/approve"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:text="Найти"
+            android:layout_weight="1"
             android:gravity="center">
         </Button>
     </LinearLayout>
@@ -44,14 +46,16 @@
             <RelativeLayout
                 android:id="@+id/rl"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginEnd="30dp"
                 android:layout_marginStart="30dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/lin">
                     <TextView
                         android:id="@+id/view"
                         android:layout_width="match_parent"
@@ -62,22 +66,23 @@
                         android:layout_gravity="start">
                     </TextView>
                     <TextView
+                        android:layout_marginTop="20dp"
                         android:id="@+id/status"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
                         android:textColor="@color/white">
                     </TextView>
+                    <TextView
+                        android:id="@+id/MaxMin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:layout_marginTop="10dp">
+                    </TextView>
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/MaxMin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="17sp"
-                    android:text=""
-                    android:textColor="@color/white"
-                    android:layout_alignParentBottom="true">
-                </TextView>
                 <ImageView
                     android:id="@+id/image"
                     android:layout_width="100dp"
@@ -103,8 +108,99 @@
             </HorizontalScrollView>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:orientation="vertical">
+                <GridLayout
+                    android:id="@+id/daysGrid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:useDefaultMargins="true">
+                </GridLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="7.5dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/wind"
+                            android:layout_marginEnd="4dp"
+                            android:layout_gravity="center">
+                        </ImageView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ветер"
+                            android:layout_gravity="center"
+                            android:textColor="@color/grey"
+                            android:textSize="20sp">
+                        </TextView>
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/wind"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="27sp"
+                        android:textColor="@color/white"
+                        android:text="—">
+                    </TextView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_marginStart="7.5dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/perc_humid"
+                            android:layout_marginEnd="4dp"
+                            android:layout_gravity="center">
+                        </ImageView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Влажность"
+                            android:textColor="@color/grey"
+                            android:layout_gravity="center"
+                            android:textSize="20sp">
+                        </TextView>
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/todayHumid"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="27sp"
+                        android:textColor="@color/white"
+                        android:text="—">
+                    </TextView>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

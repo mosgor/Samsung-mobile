@@ -3,13 +3,13 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginEnd="10dp">
+    android:layout_marginEnd="11dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00:00"
+        android:text="--:--"
         android:textColor="@color/grey"
-        android:textSize="7pt"
+        android:textSize="14sp"
         android:tag="time"
         android:layout_gravity="center">
     </TextView>
@@ -23,9 +23,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
+        android:text="—"
         android:textColor="@color/white"
-        android:textSize="12pt"
+        android:textSize="24sp"
         android:layout_gravity="center"
         android:tag="degree">
     </TextView>
@@ -45,10 +45,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100%"
+            android:text="—"
             android:textColor="@color/grey"
             android:tag="humid"
-            android:textSize="7pt">
+            android:textSize="14sp">
         </TextView>
     </LinearLayout>
 </LinearLayout>

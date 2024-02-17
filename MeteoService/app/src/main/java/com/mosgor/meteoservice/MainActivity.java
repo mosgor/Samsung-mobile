@@ -9,24 +9,30 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 
 public class MainActivity extends AppCompatActivity {
 
-	GridLayout layout;
+	GridLayout layoutD;
+
+	GridLayout layoutH;
 
 	TextView textView;
 	EditText editText;
@@ -39,25 +45,40 @@ public class MainActivity extends AppCompatActivity {
 
 	TextView maxMin;
 
+	TextView windView;
+
+	TextView humid;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		layout = findViewById(R.id.hoursGrid);
-		layout.removeAllViews();
-		layout.setColumnCount(24);
+		layoutH = findViewById(R.id.hoursGrid);
+		layoutH.removeAllViews();
+		layoutH.setColumnCount(24);
 		LinearLayout[] hoursLines = new LinearLayout[24];
 		LayoutInflater inflater =(LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 		for (int i = 0; i < 24; i++) {
-			hoursLines[i] = (LinearLayout) inflater.inflate(R.layout.hours, layout, false);
+			hoursLines[i] = (LinearLayout) inflater.inflate(R.layout.hours, layoutH, false);
 			hoursLines[i].setId(i);
-			layout.addView(hoursLines[i]);
+			layoutH.addView(hoursLines[i]);
+		}
+		layoutD = findViewById(R.id.daysGrid);
+		layoutD.removeAllViews();
+		layoutD.setColumnCount(7);
+		RelativeLayout[] daysLines = new RelativeLayout[7];
+		for (int i = 0; i < 7; i++) {
+			daysLines[i] = (RelativeLayout) inflater.inflate(R.layout.days, layoutD, false);
+			daysLines[i].setId(48 + i);
+			layoutD.addView(daysLines[i]);
 		}
 		editText = findViewById(R.id.ed);
 		textView = findViewById(R.id.view);
 		image = findViewById(R.id.image);
 		status = findViewById(R.id.status);
 		maxMin = findViewById(R.id.MaxMin);
+		windView = findViewById(R.id.wind);
+		humid = findViewById(R.id.todayHumid);
 		SharedPreferences pref = getPreferences(Context.MODE_PRIVATE);
 		String city = pref.getString("city", "0");
 		if (!city.equals("0")) {
@@ -107,10 +128,12 @@ public class MainActivity extends AppCompatActivity {
 					maxMinStr += " Ощущается как " + performTemp(current.getDouble("feelslike_c"));
 					String loc = start.getJSONObject("location").getString("name") + ", " + start.getJSONObject("location").getString("country");
 					ImageView img;
+					String hum = current.getString("humidity") + "%";
+					double wind = current.getDouble("wind_kph");
 					int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 					int currentDay = 0;
 					for (int i = 0; i < 24; i++){
-						img = (ImageView) layout.findViewById(i).findViewWithTag("i");
+						img = (ImageView) layoutH.findViewById(i).findViewWithTag("i");
 						img.setId(i + 24);
 						if (currentHour > 23){
 							currentHour = 0;
@@ -128,12 +151,39 @@ public class MainActivity extends AppCompatActivity {
 						tv.setText(String.format("%s%%", hour.getString("humidity")));
 						currentHour++;
 					}
+					for (int i = 0; i < 7; i++){
+						JSONObject day = forecast.getJSONObject(i);
+						TextView tv = findViewById(i + 48).findViewWithTag("ll").findViewWithTag("humid");
+						tv.setText(String.format("%s%%", day.getJSONObject("day").getString("avghumidity")));
+						img = (ImageView) layoutD.findViewById(48 + i).findViewWithTag("img");
+						img.setId(55 + i);
+						loadImage(img, "http://" + day.getJSONObject("day").getJSONObject("condition").getString("icon"));
+						tv = findViewById(i + 48).findViewWithTag("day");
+						if (i == 0){
+							tv.setText("Сегодня");
+						}
+						else{
+							String dateStr = day.getString("date");
+							SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+							int year = Integer.parseInt(dateStr.substring(0, 4));
+							int month = Integer.parseInt(dateStr.substring(5, 7));
+							int dday = Integer.parseInt(dateStr.substring(8, 10));
+							Calendar calendar = new GregorianCalendar(year, month, dday - 1, 0, 0, 0);
+							String weekDay =  sdf.format(calendar.getTime());
+							tv.setText(localize(weekDay));
+						}
+						tv = findViewById(i + 48).findViewWithTag("max");
+						tv.setText(performTemp(day.getJSONObject("day").getDouble("maxtemp_c")));
+						tv = findViewById(i + 48).findViewWithTag("min");
+						tv.setText(performTemp(day.getJSONObject("day").getDouble("mintemp_c")));
+					}
 					editText.setText(loc);
 					status.setText(condition.getString("text"));
 					maxMin.setText(maxMinStr);
 					textView.setTextSize(70);
 					textView.setText(output);
-
+					windView.setText(performWind(wind));
+					humid.setText(hum);
 				} catch (JSONException e) {
 					throw new RuntimeException(e);
 				}
@@ -156,14 +206,23 @@ public class MainActivity extends AppCompatActivity {
 		image.setImageBitmap(null);
 		status.setText("");
 		maxMin.setText("");
-		layout.removeAllViews();
+		layoutH.removeAllViews();
 		LinearLayout[] hoursLines = new LinearLayout[24];
 		LayoutInflater inflater =(LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 		for (int i = 0; i < 24; i++) {
-			hoursLines[i] = (LinearLayout) inflater.inflate(R.layout.hours, layout, false);
+			hoursLines[i] = (LinearLayout) inflater.inflate(R.layout.hours, layoutH, false);
 			hoursLines[i].setId(i);
-			layout.addView(hoursLines[i]);
+			layoutH.addView(hoursLines[i]);
 		}
+		layoutD.removeAllViews();
+		RelativeLayout[] daysLines = new RelativeLayout[7];
+		for (int i = 0; i < 7; i++) {
+			daysLines[i] = (RelativeLayout) inflater.inflate(R.layout.days, layoutD, false);
+			daysLines[i].setId(48 + i);
+			layoutD.addView(daysLines[i]);
+		}
+		humid.setText("—");
+		windView.setText("—");
 	}
 
 	private String performTemp(double temp){
@@ -173,6 +232,36 @@ public class MainActivity extends AppCompatActivity {
 		} else output = String.valueOf(temp);
 		output += "°";
 		return output;
+	}
+
+	private String performWind(double temp){
+		String output;
+		if ((int) temp == temp) {
+			output = String.valueOf((int) temp);
+		} else output = String.valueOf(temp);
+		output += " км/ч";
+		return output;
+	}
+
+	private String localize(String day){
+		switch (day){
+			case "Monday":
+				return "Понедельник";
+			case "Tuesday":
+				return "Вторник";
+			case "Wednesday":
+				return "Среда";
+			case "Thursday":
+				return "Четверг";
+			case "Friday":
+				return "Пятница";
+			case "Saturday":
+				return "Суббота";
+			case "Sunday":
+				return "Воскресенье";
+			default:
+				return "";
+		}
 	}
 
 	private void loadImage(ImageView imageView, String address) {
