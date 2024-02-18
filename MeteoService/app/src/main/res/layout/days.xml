@@ -9,7 +9,7 @@
         android:text="—"
         android:textColor="@color/white"
         android:layout_centerVertical="true"
-        android:textSize="19sp"
+        android:textSize="15sp"
         android:tag="day"
         android:layout_alignParentStart="true">
     </TextView>

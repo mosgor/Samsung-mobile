@@ -11,9 +11,11 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -34,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
 
 	GridLayout layoutH;
 
+	LinearLayout bottomP;
+
+	HorizontalScrollView hoursL;
+
+	LinearLayout daysL;
+
 	TextView textView;
 	EditText editText;
 
@@ -53,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		bottomP = findViewById(R.id.bottomPanel);
+		hoursL = findViewById(R.id.hoursL);
+		daysL = findViewById(R.id.daysL);
 		layoutH = findViewById(R.id.hoursGrid);
 		layoutH.removeAllViews();
 		layoutH.setColumnCount(24);
@@ -111,9 +122,11 @@ public class MainActivity extends AppCompatActivity {
 				textView.setText("Выберите локацию");
 				cleanScreen();
 			} else if (str.equals("Error")) {
-				textView.setText("Такая локация не найдена");
+				textView.setText("Такая локация не найдена, попробуйте снова ☺");
 				cleanScreen();
+				hideEl();
 			} else {
+				showEl();
 				try {
 					JSONObject start = new JSONObject(str);
 					JSONObject current = start.getJSONObject("current");
@@ -173,9 +186,11 @@ public class MainActivity extends AppCompatActivity {
 							tv.setText(localize(weekDay));
 						}
 						tv = findViewById(i + 48).findViewWithTag("max");
-						tv.setText(performTemp(day.getJSONObject("day").getDouble("maxtemp_c")));
+						String mx = day.getJSONObject("day").getDouble("maxtemp_c") + "°";
+						tv.setText(mx);
 						tv = findViewById(i + 48).findViewWithTag("min");
-						tv.setText(performTemp(day.getJSONObject("day").getDouble("mintemp_c")));
+						String mn = day.getJSONObject("day").getDouble("mintemp_c") + "°";
+						tv.setText(mn);
 					}
 					editText.setText(loc);
 					status.setText(condition.getString("text"));
@@ -225,6 +240,18 @@ public class MainActivity extends AppCompatActivity {
 		windView.setText("—");
 	}
 
+	private void hideEl(){
+		hoursL.setVisibility(View.GONE);
+		daysL.setVisibility(View.GONE);
+		bottomP.setVisibility(View.GONE);
+	}
+
+	private void showEl(){
+		hoursL.setVisibility(View.VISIBLE);
+		daysL.setVisibility(View.VISIBLE);
+		bottomP.setVisibility(View.VISIBLE);
+	}
+
 	private String performTemp(double temp){
 		String output;
 		if ((int) temp == temp) {
@@ -244,23 +271,31 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private String localize(String day){
+		day = day.toLowerCase();
 		switch (day){
-			case "Monday":
+			case "понедельник":
+			case "monday":
 				return "Понедельник";
-			case "Tuesday":
+			case "tuesday":
+			case "вторник":
 				return "Вторник";
-			case "Wednesday":
+			case "wednesday":
+			case "среда":
 				return "Среда";
-			case "Thursday":
+			case "thursday":
+			case "четверг":
 				return "Четверг";
-			case "Friday":
+			case "friday":
+			case "пятница":
 				return "Пятница";
-			case "Saturday":
+			case "saturday":
+			case "суббота":
 				return "Суббота";
-			case "Sunday":
+			case "sunday":
+			case "воскресенье":
 				return "Воскресенье";
 			default:
-				return "";
+				return "☺";
 		}
 	}
 

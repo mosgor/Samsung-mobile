@@ -92,6 +92,7 @@
                 </ImageView>
             </RelativeLayout>
             <HorizontalScrollView
+                android:id="@+id/hoursL"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbarSize="0dp"
@@ -107,6 +108,7 @@
                 </GridLayout>
             </HorizontalScrollView>
             <LinearLayout
+                android:id="@+id/daysL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape"
@@ -123,6 +125,7 @@
                 </GridLayout>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/bottomPanel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
