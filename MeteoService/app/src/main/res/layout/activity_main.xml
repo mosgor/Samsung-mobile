@@ -16,7 +16,7 @@
         <EditText
             android:id="@+id/ed"
             android:layout_width="wrap_content"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="@color/white"
             android:hint="Введите город"
@@ -29,7 +29,7 @@
         <Button
             android:id="@+id/approve"
             android:layout_width="wrap_content"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:text="Найти"
             android:layout_weight="1"
             android:gravity="center">
