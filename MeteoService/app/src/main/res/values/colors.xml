@@ -6,4 +6,5 @@
     <color name="lightBlue">#325B9A</color>
     <color name='grey'>#9E9E9E</color>
     <color name='greyShape'>#2F717171</color>
+    <color name='blueShape'>#2F5FCAEA</color>
 </resources>

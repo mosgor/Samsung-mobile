@@ -7,7 +7,7 @@
     android:layout_marginBottom="25dp"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
@@ -15,26 +15,26 @@
         android:layout_marginStart="30dp">
         <EditText
             android:id="@+id/ed"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_toStartOf="@+id/approve"
             android:textColor="@color/white"
             android:hint="Введите город"
             android:textSize="20sp"
             android:textColorHint="@color/grey"
-            android:textColorHighlight="@color/white"
-            android:inputType="text"
-            android:layout_weight="6">
+            android:textColorHighlight="@color/blueShape"
+            android:inputType="text">
         </EditText>
         <Button
             android:id="@+id/approve"
+            android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Найти"
-            android:layout_weight="1"
             android:gravity="center">
         </Button>
-    </LinearLayout>
+    </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

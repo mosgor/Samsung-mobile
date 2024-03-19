@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 						tv.setText(String.format("%s%%", hour.getString("humidity")));
 						currentHour++;
 					}
-					for (int i = 0; i < 7; i++){
+					for (int i = 0; i < forecast.length(); i++){
 						JSONObject day = forecast.getJSONObject(i);
 						TextView tv = findViewById(i + 48).findViewWithTag("ll").findViewWithTag("humid");
 						tv.setText(String.format("%s%%", day.getJSONObject("day").getString("avghumidity")));
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
 							int year = Integer.parseInt(dateStr.substring(0, 4));
 							int month = Integer.parseInt(dateStr.substring(5, 7));
 							int dday = Integer.parseInt(dateStr.substring(8, 10));
-							Calendar calendar = new GregorianCalendar(year, month, dday - 1, 0, 0, 0);
+							Calendar calendar = new GregorianCalendar(year, month - 1, dday, 0, 0, 0);
 							String weekDay =  sdf.format(calendar.getTime());
 							tv.setText(localize(weekDay));
 						}
