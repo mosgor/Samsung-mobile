@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "931676774388",
+    "project_id": "myfirtsnotification",
+    "storage_bucket": "myfirtsnotification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931676774388:android:d58de8b8a65aa28506a3a1",
+        "android_client_info": {
+          "package_name": "com.mosgor.notification"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCK5xH_seprwMHm6McIg9xtoQi_YF4DRwg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
