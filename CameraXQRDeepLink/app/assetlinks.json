@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.mosgor.camerax_qr_deeplink",
+    "sha256_cert_fingerprints":
+    ["FE:BE:44:71:C2:F2:A0:F9:77:95:98:24:3B:97:74:34:79:C5:ED:E8:D4:5E:1B:CD:80:E6:6C:A4:EC:2A:21:87"]
+  }
+}]
