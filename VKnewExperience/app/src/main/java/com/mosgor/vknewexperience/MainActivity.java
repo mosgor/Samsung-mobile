@@ -2,6 +2,7 @@ package com.mosgor.vknewexperience;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -49,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		textView = findViewById(R.id.tv);
+		textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+
+			}
+		});
 		String[] fingerPrint = VKUtils.getCertificateFingerprint(this, this.getPackageName());
 		if (!VK.isLoggedIn())
 			authLauncher.launch(new ArrayList<>(Arrays.asList(VKScope.WALL, VKScope.FRIENDS, VKScope.GROUPS)));
